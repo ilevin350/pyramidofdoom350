@@ -14,27 +14,27 @@ export class App {
   msg2: string = '';
   msg3: string = '';
 
-  // This example illustrates how each link in a promise chain must wait
-  // for the previous link to be settled (fulfilled or rejected) before
-  // its then callback function is invoked.
   initProcess(): void {
     this.msg1 = '';
     this.msg2 = '';
     this.msg3 = '';
-
-    const myPromise = new Promise(
-      (resolve) => {
+    
+    // -----------------------------------------------------------------------
+    // This example illustrates the unsightly result of nesting asynchronous
+    // functions vs. the preferred method of chaining promises.  While this
+    // code might not look all that bad, in a real-life scenario, the code
+    // contained in the callback functions can be complex, making the
+    // result difficult to follow.
+    // -----------------------------------------------------------------------
+    setTimeout(() => {
+      this.msg1 = 'Async function #1 completed';
+      setTimeout(() => {
+        this.msg2 = 'Async function #2 completed';
         setTimeout(() => {
-          this.msg1 = 'Async function #1 completed';
-          setTimeout(() => {
-            this.msg2 = 'Async function #2 completed';
-            setTimeout(() => {
-              this.msg3 = 'Async function #3 completed';
-            }, 3000)
-          }, 3000)
-        }, 3000)
-      }
-    );
+          this.msg3 = 'Async function #3 completed';
+        }, 1000)
+      }, 1000)
+    }, 1000);
   }
 }
 
